@@ -37,12 +37,6 @@ html, body {
     min-height: calc(var(--vh, 1vh) * 100);
 }
 
-.app-container {
-    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + var(--spacing-container));
-}
-
-/* Debug code removed - content visibility handled by JavaScript */
-
 body {
     font-family: 'PP Agrandir Wide', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     line-height: 1.6;
@@ -97,22 +91,17 @@ body {
     min-height: 100dvh;
     height: calc(var(--vh, 1vh) * 100);
     min-height: calc(var(--vh, 1vh) * 100);
-    /* padding-bottom: env(safe-area-inset-bottom); */
 }
 
 /* Layout containers for consistent structure */
 .layout-container {
     width: 100%;
-    height: 100dvh;
-    min-height: 100dvh;
     height: calc(var(--vh, 1vh) * 100);
-    min-height: calc(var(--vh, 1vh) * 100);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 0;
     flex: 1 1 auto;
-    min-height: 0;
 }
 
 /* 5-row layout system - unified padding */
@@ -176,6 +165,7 @@ body {
 
 /* Section styles */
 .section {
+    height: 85dvh !important;
     position: absolute;
     top: 0;
     left: 0;
@@ -418,8 +408,6 @@ a {
     height: 24px;
 }
 
-/* Up arrow for section 2 - now part of row layout */
-
 /* Contact Overlay */
 .contact-overlay {
     position: fixed;
@@ -517,9 +505,6 @@ a {
     text-decoration: none;
 }
 
-/* Removed unused environment flagging classes */
-
-/* Mobile-first responsive design */
 /* General mobile - up to 768px */
 @media screen and (max-width: 768px) {
     .layout-container {
@@ -685,7 +670,7 @@ a {
     /* Contact button in separate row - always visible */
     .section#section-2 .cta-button {
         flex: 0 0 auto; /* Don't grow/shrink - prevent overlap */
-        padding: 0.5rem 1rem; /* Smaller padding for mobile */
+        padding: 1rem 2rem;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -699,7 +684,7 @@ a {
     /* Request references button - same sizing as Contact Us */
     .section#section-1 .cta-button {
         flex: 0 0 auto; /* Don't grow/shrink - prevent overlap */
-        padding: 0.5rem 1rem; /* Same smaller padding for mobile */
+        padding: 1rem 2rem;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -788,7 +773,7 @@ a {
     
     /* CRITICAL: Section 2 contact button protection - now using scaling approach */
     #section-2 .cta-button {
-        margin-bottom: 20vh;
+        margin-bottom: 15vh;
         position: relative; /* Enable z-index stacking */
         z-index: 10; /* Ensure button stays above other content */
     }
@@ -798,14 +783,11 @@ a {
         padding-bottom: var(--spacing-md); /* Standard bottom padding */
         min-height: 80px; /* Reduced since scaling handles fit */
         position: relative;
-        /*margin-top: var(--spacing-xl); /* Push contact button lower */
         z-index: 10;
     }
     
-    
     /* CRITICAL: App container protection - now using scaling approach */
     .app-container {
-        padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 40px); /* Reduced padding since scaling handles fit */
         min-height: 100vh; /* Use standard viewport height */
         min-height: calc(var(--vh, 1vh) * 100); /* Use JavaScript-calculated viewport height */
         position: relative; /* Enable proper stacking context */
@@ -820,20 +802,13 @@ a {
         /* Additional fallback for browsers that don't support CSS custom properties */
         min-height: 100vh;
     }
-    
-    
-    /* High-specificity overrides removed - using unified mobile rules above */
 }
 
 /* Additional mobile styles consolidated into main mobile block above */
 
 /* Small mobile - up to 480px */
 @media (max-width: 480px) {
-    .layout-container{
-        display: block;
-    }
     #section-2 .row-3 {
-        /* REMOVED max-height constraint - let content flow naturally */
         padding: var(--spacing-sm) 0; /* Minimal padding for very small screens */
     }
     
@@ -849,8 +824,6 @@ a {
         font-size: 0.7rem !important; /* Smaller button text */
         padding: 0.4rem 0.8rem; /* Even smaller padding for very small screens */
         min-height: auto !important; /* Use global button height */
-        /*
-        margin-bottom: calc(var(--spacing-xl) + 150px) !important; /* Extra space for very small screens */
     }
     
     #section-1 .cta-button {
@@ -858,14 +831,7 @@ a {
         padding: 0.4rem 0.8rem; /* Even smaller padding for very small screens */
         min-height: auto !important; /* Use global button height */
     }
-    
-    /* CRITICAL: Extra aggressive protection for very small screens */
-    .app-container {
-        padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 150px) !important;
-        min-height: calc(100vh + 150px) !important;
-        min-height: calc(var(--vh, 1vh) * 100 + 150px) !important; /* Use JavaScript viewport height */
-    }
-    
+
     /* Enhanced protection for very small screens - section 1 bottom arrow */
     .section#section-1 .row-5 {
         padding-bottom: var(--spacing-md); /* Standard padding */
@@ -882,103 +848,10 @@ a {
     }
 }
 
-/* Desktop - from 769px upward */
-@media (min-width: 769px) {
-    .layout-container {
-        /* Desktop: Use space-between to fill full height */
-        justify-content: space-between;
-        min-height: 600px;
-    }
-
-    .section {
-        min-height: 600px;
-    }
-
-    .illustration {
-        min-height: 40vh;
-    }
-    
-    .section__description {
-        font-size: 1.2rem;
-    }
-    
-    /* Desktop uses unified padding from global .row rule */
-    
-    /* Desktop section 2 - simple flex layout */
-    #section-2 .row-1 {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: var(--spacing-xl) var(--spacing-md) var(--spacing-md) var(--spacing-md); /* More top padding for desktop */
-        position: relative; /* For absolute positioning of arrow */
-    }
-    
-    /* Logo on the left */
-    #section-2 .section__logo--header {
-        flex: 0 0 auto;
-        position: static; /* Use normal flow instead of absolute positioning */
-        left: auto;
-        top: auto;
-        transform: none;
-    }
-    
-    /* Desktop up arrow - centered in header row */
-    #section-2 .nav-arrow--up {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 10;
-    }
-    
-    /* Show logo in section 2 on desktop */
-    #section-2 .section__logo--header {
-        display: block; /* Override mobile display: none */
-    }
-    
-    #section-2 .row-3 {
-        /* COMPLETELY STATIC - no animations, transitions, or transforms */
-        transition: none;
-        transform: none;
-        animation: none;
-        will-change: auto;
-        backface-visibility: visible;
-        justify-content: center;
-        align-items: center;
-    }
-    
-    #section-2 .row-4 {
-        justify-content: center; /* Center contact button */
-        align-items: center;
-        padding-bottom: 15vh; /* Extra bottom padding for contact button */
-    }
-    
-    /* Desktop Section 2: ensure rows 2 and 5 are empty */
-    #section-2 .row-2,
-    #section-2 .row-5 {
-        display: none; /* Hide completely on desktop too */
-        padding: 0;
-        min-height: 0;
-    }
-    
-    .contact-form {
-        padding: 15vh;
-    }
-    
-    /* Desktop row-4 and row-5 - efficient bottom spacing */
-    .row-4 {
-        padding: var(--spacing-sm) var(--spacing-md) var(--spacing-xs) var(--spacing-md);
-    }
-    
-    .row-5 {
-        flex-shrink: 0; /* Don't shrink, stay at bottom */
-        padding: var(--spacing-xs) var(--spacing-md) var(--spacing-lg) var(--spacing-md); /* More bottom padding for desktop */
-        min-height: 120px; /* More space for desktop */
-    }
-    
+/* Avoid cta-button being too close to bottom */
+#section-2 .cta-button {
+    margin-bottom: 15vh;
 }
-
-/* Large desktop breakpoint removed - not needed for design */
 
 /* Accessibility */
 @media (prefers-reduced-motion: reduce) {
@@ -1010,8 +883,6 @@ a {
     outline-offset: 2px;
 }
 
-/* Merged into first @media (max-width: 768px) block above */
-
 /*
 QA console:
 ['.app-container','.layout-container','.section','#section-1 .row-3','#section-2 .row-3','#section-1 .row-4','#section-1 .row-5'].forEach(s=>{
@@ -1020,4 +891,3 @@ QA console:
   console.log(s,{disp:cs.display,fd:cs.flexDirection,jc:cs.justifyContent,flex:cs.flex,h:Math.round(r.height)});
 });
 */
-

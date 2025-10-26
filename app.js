@@ -591,7 +591,7 @@ class FieldTripApp {
         if (this.isMobile()) {
             // --vh is now handled by global setVHVar() function
             // Calculate if content needs scaling
-            this.scaleContentToFitViewport();
+            //this.scaleContentToFitViewport();
         }
     }
     
@@ -782,7 +782,7 @@ class FieldTripApp {
             // Recalculate scaling for new section
             if (this.isMobile()) {
                 setTimeout(() => {
-                    this.scaleContentToFitViewport();
+                    //this.scaleContentToFitViewport(); <-- Disable for now. Try to fix with CSS.
                 }, 100);
             }
             this.isTransitioning = false;

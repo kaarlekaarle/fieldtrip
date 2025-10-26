@@ -874,6 +874,12 @@ a {
         max-width: none; /* Remove width constraint on desktop */
         white-space: nowrap; /* Keep on one line */
     }
+    
+    /* Fix desktop section 2 logo position - keep at top instead of vertically centered */
+    #section-2 .section__logo--header {
+        top: 0;
+        transform: translateY(0);
+    }
 }
 
 /* Focus styles for accessibility */

@@ -173,9 +173,6 @@ body {
     opacity: 0;
     visibility: hidden;
     transform: translateY(100vh);
-    transition: opacity var(--animation-duration) var(--animation-easing), 
-                visibility var(--animation-duration) var(--animation-easing),
-                transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     /* Flex layout for proper space distribution */
     display: flex;
     flex-direction: column;
@@ -211,10 +208,6 @@ body {
     width: auto;
     object-fit: contain;
     opacity: 1;
-    transition: opacity var(--animation-duration) var(--animation-easing);
-    /* Prevent compositing glitches during re-paint */
-    backface-visibility: hidden;
-    transform: translateZ(0);
 }
 
 /* Desktop illustration constraint */
@@ -231,22 +224,18 @@ body {
 .section__content--hidden {
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity var(--animation-duration) var(--animation-easing),
-                transform var(--animation-duration) var(--animation-easing);
 }
 
 /* Load animation sequence classes */
 .fade-in {
     opacity: 1 !important;
     transform: translateY(0) !important;
-    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1) !important;
     z-index: 2; /* Ensure button stays above other content */
 }
 
 .fade-out {
     opacity: 0 !important;
     transform: translateY(20px) !important;
-    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 /* Section 1 rows — canonical */
@@ -352,7 +341,6 @@ a {
     font-size: calc(var(--base-font-size) * 0.8);
     cursor: pointer;
     border-radius: 0;
-    transition: all var(--animation-duration-fast) var(--animation-easing);
     opacity: 0;
     transform: translateY(20px);
     position: relative;
@@ -382,7 +370,6 @@ a {
     cursor: pointer;
     opacity: 0;
     transform: translateY(10px);
-    transition: all var(--animation-duration) var(--animation-easing);
     /* Reset button defaults that might affect centering */
     margin: 0;
     padding: 0;
@@ -416,8 +403,6 @@ a {
     z-index: 1000;
     opacity: 0;
     visibility: hidden;
-    transition: opacity var(--animation-duration) var(--animation-easing),
-                visibility var(--animation-duration) var(--animation-easing);
 }
 
 .contact-overlay--visible {
@@ -439,8 +424,6 @@ a {
     background: var(--color-overlay-bg);
     backdrop-filter: blur(0px);
     -webkit-backdrop-filter: blur(0px);
-    transition: backdrop-filter var(--animation-duration) var(--animation-easing),
-                -webkit-backdrop-filter var(--animation-duration) var(--animation-easing);
 }
 
 .overlay-close {
@@ -453,7 +436,6 @@ a {
     cursor: pointer;
     padding: var(--spacing-sm);
     border-radius: 0;
-    transition: all var(--animation-duration-fast) var(--animation-easing);
     z-index: 1001;
 }
 
@@ -468,7 +450,6 @@ a {
     transform: translate(-50%, -50%);
     text-align: center;
     opacity: 0;
-    transition: opacity var(--animation-duration) var(--animation-easing);
     max-width: 500px; /* Default desktop width */
     width: 100%;
     padding: var(--spacing-lg);

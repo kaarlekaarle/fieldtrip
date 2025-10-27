@@ -165,7 +165,7 @@ body {
 
 /* Section styles */
 .section {
-    height: 85dvh !important;
+    height: 85dvh;
     position: absolute;
     top: 0;
     left: 0;

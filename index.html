@@ -9,7 +9,7 @@
     <meta name="theme-color" content="#d7d3c1" id="theme-color-meta">
     <link rel="icon" type="image/svg+xml" href="images/fieldtrip_favicon.svg">
     <title>FieldTrip</title>
-    <link rel="stylesheet" href="styles.css?v=112&t=20251025">
+    <link rel="stylesheet" href="styles.css?v=122&t=20251025">
 </head>
 <body>
     <!-- Main container to prevent scrolling -->
@@ -38,29 +38,15 @@
                 <div class="row row-4">
                     <button class="cta-button" id="request-references"></button>
                 </div>
-                
-                <!-- Row 5: Down Arrow -->
-                <div class="row row-5">
-                    <button class="nav-arrow nav-arrow--down" id="arrow-down" aria-label="Go to next section">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="6,9 12,15 18,9"></polyline>
-                        </svg>
-                    </button>
-                </div>
             </div>
         </section>
 
         <!-- Section 2: Content/Experience -->
         <section class="section" id="section-2" data-section="2">
             <div class="layout-container">
-                <!-- Row 1: Logo and Up Arrow -->
+                <!-- Row 1: Logo -->
                 <div class="row row-1">
                     <img src="fieldtrip.png" alt="FieldTrip" class="section__logo section__logo--header">
-                    <button class="nav-arrow nav-arrow--up" id="arrow-up" aria-label="Go to previous section">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="18,15 12,9 6,15"></polyline>
-                        </svg>
-                    </button>
                 </div>
                 
                 <!-- Row 2: Empty -->
@@ -85,6 +71,19 @@
         </section>
     </div>
 
+    <!-- Navigation Arrows (outside sections so they don't move during transitions) -->
+    <button class="nav-arrow nav-arrow--down" id="arrow-down" aria-label="Go to next section">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6,9 12,15 18,9"></polyline>
+        </svg>
+    </button>
+    
+    <button class="nav-arrow nav-arrow--up" id="arrow-up" aria-label="Go to previous section">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="18,15 12,9 6,15"></polyline>
+        </svg>
+    </button>
+
     <!-- Contact Overlay -->
     <div class="contact-overlay" id="contact-overlay">
         <div class="overlay-background"></div>
@@ -103,6 +102,6 @@
         </div>
     </div>
 
-    <script src="app.js?v=39"></script>
+    <script src="app.js?v=42"></script>
 </body>
 </html>

@@ -749,6 +749,10 @@ class FieldTripApp {
 
         this.isTransitioning = true;
         
+        // Hide arrows during transition so they don't move with content
+        this.arrowDown.classList.remove('nav-arrow--visible');
+        this.arrowUp.classList.remove('nav-arrow--visible');
+        
         // Reset any content scaling before transition
         this.resetContentScaling();
         
@@ -815,13 +819,16 @@ class FieldTripApp {
      */
     showNewContent() {
         if (this.currentSection === 1) {
-            // Immediately restore arrow visibility for hover effects
+            // Hide up arrow, show down arrow
+            this.arrowUp.classList.remove('nav-arrow--visible');
             this.arrowDown.classList.add('nav-arrow--visible');
             // Ensure mobile arrow protection is restored
             this.ensureBottomArrowVisibility();
             // Treat this like a fresh page load - start completely clean
             this.initializeSection1LikeFreshLoad();
         } else if (this.currentSection === 2) {
+            // Hide down arrow, show up arrow
+            this.arrowDown.classList.remove('nav-arrow--visible');
             // Show logo and up arrow immediately
             const section2Logo = document.querySelector('#section-2 .section__logo--header');
             if (section2Logo) {
@@ -843,26 +850,7 @@ class FieldTripApp {
      * Ensure bottom arrow is always visible and protected
      */
     ensureBottomArrowVisibility() {
-        if (this.isMobile()) {
-            const row5 = document.querySelector('.row-5');
-            if (row5) {
-                // Force visibility and protection
-                row5.style.display = 'flex';
-                row5.style.alignItems = 'center';
-                row5.style.justifyContent = 'center';
-                row5.style.position = 'relative';
-                row5.style.zIndex = '10';
-                row5.style.minHeight = '120px';
-                
-                // Ensure arrow is visible
-                if (this.arrowDown) {
-                    this.arrowDown.style.visibility = 'visible';
-                    this.arrowDown.style.opacity = '1';
-                    this.arrowDown.style.position = 'relative';
-                    this.arrowDown.style.zIndex = '11';
-                }
-            }
-        }
+        // Function removed - arrows now outside sections with position: fixed
     }
 
     /**

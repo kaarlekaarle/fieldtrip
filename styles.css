@@ -276,10 +276,9 @@ body {
 #section-1 .row-2, 
 #section-1 .row-3, 
 #section-1 .row-4, 
-#section-1 .row-5 {
-    opacity: 0;
-    transform: translateY(20px);
-}
+/* Section 1 row-5 rule removed - arrow now outside section */
+
+/* Arrows are now outside sections, no overrides needed */
 
 /* Ensure illustration starts hidden (Section 1 only) */
 #section-1 .illustration {
@@ -292,10 +291,7 @@ body {
 #section-1.hidden .row-2,
 #section-1.hidden .row-3 img,
 #section-1.hidden .row-4,
-#section-1.hidden .row-5 {
-    opacity: 0;
-    transition: none;
-}
+/* Section 1 hidden row-5 rule removed - arrow now outside section */
 
 .section__content {
     text-align: center;
@@ -323,13 +319,29 @@ body {
 .nav-arrow--up {
     width: var(--size-icon); /* Ensure consistent width */
     height: var(--size-icon); /* Ensure consistent height */
-    position: static; /* Use normal flow */
-    left: auto;
-    transform: none;
+    position: absolute; /* Position absolutely so arrows don't move with content */
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto; /* Center horizontally */
+    margin: 0; /* Remove auto margin */
+}
+
+/* Position down arrow at bottom center */
+.nav-arrow--down {
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px) !important;
+    /* Ensure positioning is relative to viewport */
+    position: fixed;
+}
+
+/* Position up arrow at top center */
+.nav-arrow--up {
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px) !important;
+    /* Ensure positioning is relative to viewport */
+    position: fixed;
 }
 
 /* Removed unused .section__title - using logo instead */
@@ -401,8 +413,12 @@ a {
     color: var(--color-primary);
     cursor: pointer;
     opacity: 0;
+    visibility: hidden;
     transform: translateY(10px);
-    transition: transform 0.3s ease, color 0.3s ease;
+    transition: transform 0.3s ease, color 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+    /* Position absolutely so arrows don't move with content during transitions */
+    position: absolute;
+    z-index: 100;
     /* Reset button defaults that might affect centering */
     margin: 0;
     padding: 0;
@@ -413,7 +429,8 @@ a {
 
 .nav-arrow--visible {
     opacity: 1;
-    transform: translateY(0);
+    visibility: visible;
+    transform: translateX(-50%) translateY(0) !important;
 }
 
 .nav-arrow:hover {
@@ -422,11 +439,11 @@ a {
 
 /* Arrow hover transitions - different directions for each view */
 #section-1 .nav-arrow--visible:hover {
-    transform: translateY(-5px) !important;
+    transform: translateX(-50%) translateY(5px) !important; /* Move up 5px from 0 to 5px */
 }
 
 #section-2 .nav-arrow--visible:hover {
-    transform: translateY(5px) !important;
+    transform: translateX(-50%) translateY(15px) !important; /* Move down 5px from 0 to 15px */
 }
 
 .nav-arrow svg {
@@ -630,8 +647,13 @@ a {
     }
     
     /* Section 2 rows — canonical */
-    /* Mobile section 2 layout - center text block in viewport */
-    #section-2 .row-3 {
+/* Mobile section 1 layout - ensure contact button has space from bottom arrow */
+#section-1 .row-4 {
+    padding-bottom: 80px; /* Add space to prevent overlap with down arrow */
+}
+
+/* Mobile section 2 layout - center text block in viewport */
+#section-2 .row-3 {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -646,21 +668,7 @@ a {
         backface-visibility: visible;
     }
     
-    /* Mobile up arrow - centered but positioned to prevent layout shifts */
-    #section-2 .nav-arrow--up {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 10;
-        /* Ensure arrow doesn't affect layout */
-        pointer-events: auto;
-        /* Prevent any layout impact */
-        width: 24px;
-        height: 24px;
-        margin: 0;
-        padding: 0;
-    }
+    /* Mobile up arrow rule removed - arrows now outside sections */
     
     /* Text block with proper centering and width constraints - COMPLETELY STATIC */
     #section-2 .text-block {
@@ -866,9 +874,7 @@ a {
     }
 
     /* Enhanced protection for very small screens - section 1 bottom arrow */
-    .section#section-1 .row-5 {
-        padding-bottom: var(--spacing-md); /* Standard padding */
-    }
+    /* Section 1 row-5 mobile rule removed - arrow now outside section */
     
     /* Enhanced protection for very small screens - section 2 contact button */
     #section-2 .cta-button {
@@ -882,6 +888,10 @@ a {
 }
 
 /* Avoid cta-button being too close to bottom */
+#section-1 .cta-button {
+    margin-bottom: 80px; /* Add space to prevent overlap with down arrow */
+}
+
 #section-2 .cta-button {
     margin-bottom: 15vh;
 }
@@ -892,9 +902,7 @@ a {
         transition: none;
     }
     
-    .nav-arrow {
-        transition: none;
-    }
+    /* Mobile nav-arrow rule removed - arrows now outside sections */
     
     .cta-button {
         transition: none;

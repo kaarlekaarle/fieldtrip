@@ -232,7 +232,7 @@ body {
     min-height: 40dvh;       /* Ensure minimum size */
     width: auto;
     object-fit: contain;
-    opacity: 1;
+    /* opacity: 1; - Removed to prevent conflict with section-specific hiding */
 }
 
 /* Desktop illustration constraint */
@@ -276,7 +276,10 @@ body {
 #section-1 .row-2, 
 #section-1 .row-3, 
 #section-1 .row-4, 
-/* Section 1 row-5 rule removed - arrow now outside section */
+#section-1 .row-5 {
+    opacity: 0;
+    transform: translateY(20px);
+}
 
 /* Arrows are now outside sections, no overrides needed */
 
@@ -416,8 +419,8 @@ a {
     visibility: hidden;
     transform: translateY(10px);
     transition: transform 0.3s ease, color 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
-    /* Position absolutely so arrows don't move with content during transitions */
-    position: absolute;
+    /* Position fixed so arrows don't move with content during transitions */
+    position: fixed;
     z-index: 100;
     /* Reset button defaults that might affect centering */
     margin: 0;
@@ -431,19 +434,20 @@ a {
     opacity: 1;
     visibility: visible;
     transform: translateX(-50%) translateY(0) !important;
+    transition: transform 0.3s ease, color 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .nav-arrow:hover {
     color: var(--color-text);
 }
 
-/* Arrow hover transitions - different directions for each view */
-#section-1 .nav-arrow--visible:hover {
-    transform: translateX(-50%) translateY(5px) !important; /* Move up 5px from 0 to 5px */
+/* Arrow hover transitions - different directions for each arrow type */
+.nav-arrow--down.nav-arrow--visible:hover {
+    transform: translateX(-50%) translateY(-10px) !important; /* Down arrow moves up on hover */
 }
 
-#section-2 .nav-arrow--visible:hover {
-    transform: translateX(-50%) translateY(15px) !important; /* Move down 5px from 0 to 15px */
+.nav-arrow--up.nav-arrow--visible:hover {
+    transform: translateX(-50%) translateY(10px) !important; /* Up arrow moves down on hover */
 }
 
 .nav-arrow svg {

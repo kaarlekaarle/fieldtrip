@@ -240,29 +240,32 @@ class FieldTripApp {
     }
 
     /**
+     * Hide element with standard animation state
+     */
+    hideElement(element) {
+        if (element) {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(20px)';
+        }
+    }
+
+    /**
      * Hide all content for animation sequence (Section 1 only)
      */
     hideAllContentForAnimation() {
         // Hide Section 1 rows including row-3 (illustration)
         document.querySelectorAll('#section-1 .row-1, #section-1 .row-2, #section-1 .row-3, #section-1 .row-4, #section-1 .row-5').forEach(row => {
             row.classList.add('fade-out');
-            row.style.opacity = '0';
-            row.style.transform = 'translateY(20px)';
+            this.hideElement(row);
         });
         
         // Hide illustration specifically
-        if (this.randomIllustration) {
-            this.randomIllustration.style.opacity = '0';
-            this.randomIllustration.style.transform = 'translateY(20px)';
-        }
+        this.hideElement(this.randomIllustration);
         
         // Hide CTA button
-        if (this.requestReferencesBtn) {
-            this.requestReferencesBtn.style.opacity = '0';
-            this.requestReferencesBtn.style.transform = 'translateY(20px)';
-        }
+        this.hideElement(this.requestReferencesBtn);
         
-        // Hide down arrow
+        // Hide down arrow (different transform for arrow)
         if (this.arrowDown) {
             this.arrowDown.style.opacity = '0';
             this.arrowDown.style.transform = 'translateY(10px)';
@@ -275,22 +278,19 @@ class FieldTripApp {
     hideAllContentImmediately() {
         // Hide all Section 1 rows immediately with no transition
         document.querySelectorAll('#section-1 .row-1, #section-1 .row-2, #section-1 .row-3, #section-1 .row-4, #section-1 .row-5').forEach(row => {
-            row.style.opacity = '0';
-            row.style.transform = 'translateY(20px)';
+            this.hideElement(row);
             row.style.transition = 'none';
         });
         
         // Hide illustration immediately
         if (this.randomIllustration) {
-            this.randomIllustration.style.opacity = '0';
-            this.randomIllustration.style.transform = 'translateY(20px)';
+            this.hideElement(this.randomIllustration);
             this.randomIllustration.style.transition = 'none';
         }
         
         // Hide CTA button immediately
         if (this.requestReferencesBtn) {
-            this.requestReferencesBtn.style.opacity = '0';
-            this.requestReferencesBtn.style.transform = 'translateY(20px)';
+            this.hideElement(this.requestReferencesBtn);
             this.requestReferencesBtn.style.transition = 'none';
         }
         
@@ -306,6 +306,12 @@ class FieldTripApp {
      * Initialize Section 1 exactly like a fresh page load
      */
     initializeSection1LikeFreshLoad() {
+        // First, completely reset all content to clean state (same as initial load)
+        this.resetSection1Content();
+        
+        // Then hide all content for animation sequence
+        this.hideAllContentForAnimation();
+        
         // Ensure illustration container is visible
         const illustrationContainer = document.querySelector('.illustration-container');
         if (illustrationContainer) {
@@ -769,6 +775,11 @@ class FieldTripApp {
         
         // Update section visibility with a small delay to allow CSS transition
         setTimeout(() => {
+            // If transitioning to section 1, reset content BEFORE making section visible
+            if (this.currentSection === 1) {
+                this.initializeSection1LikeFreshLoad();
+            }
+            
             this.updateSections();
         }, 10);
         
@@ -824,8 +835,7 @@ class FieldTripApp {
             this.arrowDown.classList.add('nav-arrow--visible');
             // Ensure mobile arrow protection is restored
             this.ensureBottomArrowVisibility();
-            // Treat this like a fresh page load - start completely clean
-            this.initializeSection1LikeFreshLoad();
+            // Animation already started in navigateToSection() - no need to call initializeSection1LikeFreshLoad() again
         } else if (this.currentSection === 2) {
             // Hide down arrow, show up arrow
             this.arrowDown.classList.remove('nav-arrow--visible');

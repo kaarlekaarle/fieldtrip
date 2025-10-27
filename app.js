@@ -804,14 +804,6 @@ class FieldTripApp {
         this.previousSection = this.currentSection;
         this.currentSection = sectionNumber;
         
-        // CRITICAL: Hide entire illustration container when leaving section 1
-        if (this.previousSection === 1) {
-            const illustrationContainer = document.querySelector('.illustration-container');
-            if (illustrationContainer) {
-                illustrationContainer.style.display = 'none';
-            }
-        }
-        
         // Update section visibility with a small delay to allow CSS transition
         setTimeout(() => {
             // If transitioning to section 1, use simplified return logic

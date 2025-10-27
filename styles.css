@@ -651,10 +651,7 @@ a {
     }
     
     /* Section 2 rows — canonical */
-/* Mobile section 1 layout - ensure contact button has space from bottom arrow */
-#section-1 .row-4 {
-    padding-bottom: 80px; /* Add space to prevent overlap with down arrow */
-}
+/* Mobile section 1 layout - spacing handled by global button margin rule */
 
 /* Mobile section 2 layout - center text block in viewport */
 #section-2 .row-3 {

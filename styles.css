@@ -173,6 +173,9 @@ body {
     opacity: 0;
     visibility: hidden;
     transform: translateY(100vh);
+    transition: opacity var(--animation-duration) var(--animation-easing), 
+                visibility var(--animation-duration) var(--animation-easing),
+                transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     /* Flex layout for proper space distribution */
     display: flex;
     flex-direction: column;

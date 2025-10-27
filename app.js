@@ -16,51 +16,7 @@ window.addEventListener('orientationchange', setVHVar);
 
 // Optional verification snippet
 
-// Layout diagnostic function
-function diagnoseLayout() {
-    const section = document.querySelector('.section.section--active');
-    const row3 = document.querySelector('.row-3');
-    const row4 = document.querySelector('.row-4');
-    const row5 = document.querySelector('.row-5');
-    
-    if (!section || !row3 || !row4 || !row5) {
-        return;
-    }
-    
-    const sectionRect = section.getBoundingClientRect();
-    const row3Rect = row3.getBoundingClientRect();
-    const row4Rect = row4.getBoundingClientRect();
-    const row5Rect = row5.getBoundingClientRect();
-    
-    console.log('Layout Diagnostic:', {
-        section: {
-            height: Math.round(sectionRect.height),
-            display: getComputedStyle(section).display,
-            flexDirection: getComputedStyle(section).flexDirection,
-            justifyContent: getComputedStyle(section).justifyContent
-        },
-        row3: {
-            height: Math.round(row3Rect.height),
-            flex: getComputedStyle(row3).flex,
-            padding: getComputedStyle(row3).padding
-        },
-        row4: {
-            height: Math.round(row4Rect.height),
-            marginTop: getComputedStyle(row4).marginTop,
-            padding: getComputedStyle(row4).padding
-        },
-        row5: {
-            height: Math.round(row5Rect.height),
-            padding: getComputedStyle(row5).padding,
-            minHeight: getComputedStyle(row5).minHeight
-        },
-        totalHeight: Math.round(row3Rect.height + row4Rect.height + row5Rect.height),
-        availableSpace: Math.round(sectionRect.height - row3Rect.height - row4Rect.height - row5Rect.height)
-    });
-}
 
-// Run diagnostic after page load
-setTimeout(diagnoseLayout, 1000);
 
 class FieldTripApp {
     constructor() {
@@ -211,7 +167,6 @@ class FieldTripApp {
         // Set up initial state without showing content (animation will handle visibility)
         // Keep down arrow always visible and ensure it's protected
         this.arrowDown.classList.add('nav-arrow--visible');
-        this.ensureBottomArrowVisibility();
         
         // Hide up arrow initially
         this.arrowUp.classList.remove('nav-arrow--visible');
@@ -245,7 +200,7 @@ class FieldTripApp {
     hideElement(element) {
         if (element) {
             element.style.opacity = '0';
-            element.style.transform = 'translateY(20px)';
+            element.style.transform = 'translateY(-20px)';
         }
     }
 
@@ -885,12 +840,6 @@ class FieldTripApp {
         }
     }
     
-    /**
-     * Ensure bottom arrow is always visible and protected
-     */
-    ensureBottomArrowVisibility() {
-        // Function removed - arrows now outside sections with position: fixed
-    }
 
     /**
      * Reset z-index and positioning after section transitions
@@ -1064,7 +1013,7 @@ class FieldTripApp {
         // Ensure Section 1 links are clickable after overlay closes
         setTimeout(() => {
             this.resetSectionStyles();
-        }, 100);
+        }, 600); // Wait for CSS transition to complete (500ms + 100ms buffer)
     }
 
     /**

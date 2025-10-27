@@ -401,9 +401,10 @@ class FieldTripApp {
 
     /**
      * Fade in content in the correct sequence (Section 1 only)
+     * Improved animation: logo → text → button with consistent timing
      */
     fadeInContentSequence() {
-        const fadeIn = (selector, delay) => {
+        const animateElement = (selector, delay) => {
             setTimeout(() => {
                 const element = document.querySelector(selector);
                 if (element) {
@@ -413,40 +414,37 @@ class FieldTripApp {
             }, delay);
         };
 
-        // Step 1: Illustration fades in first
-        fadeIn('#section-1 .row-3', 0);
+        // Step 1: Illustration fades in first (immediate)
+        animateElement('#section-1 .row-3', 0);
         setTimeout(() => {
             if (this.randomIllustration) {
                 this.randomIllustration.classList.add('fade-in');
             }
         }, 0);
         
-        // Step 2: Logo (row-1) fades in after illustration
-        fadeIn('#section-1 .row-1', 800);
+        // Step 2: Logo animates first (after illustration is ready)
+        animateElement('#section-1 .row-1', 600);
         
-        // Step 3: Text (row-2) fades in
-        fadeIn('#section-1 .row-2', 1000);
+        // Step 3: Text animates second (300ms after logo)
+        animateElement('#section-1 .row-2', 900);
         
-        // Step 4: CTA button (row-4) fades in
-        fadeIn('#section-1 .row-4', 1600);
-        
-        // Step 5: Arrow (row-5) fades in last
-        fadeIn('#section-1 .row-5', 2000);
-        
-        // Also fade in CTA button and arrow with their respective rows
+        // Step 4: Button animates third (300ms after text)
+        animateElement('#section-1 .row-4', 1200);
         setTimeout(() => {
             if (this.requestReferencesBtn) {
                 this.requestReferencesBtn.classList.add('fade-in');
                 this.requestReferencesBtn.classList.add('cta-button--visible');
             }
-        }, 1600);
+        }, 1200);
         
+        // Step 5: Arrow animates last (300ms after button)
+        animateElement('#section-1 .row-5', 1500);
         setTimeout(() => {
             if (this.arrowDown) {
                 this.arrowDown.classList.add('fade-in');
                 this.arrowDown.classList.add('nav-arrow--visible');
             }
-        }, 2000);
+        }, 1500);
     }
 
     /**

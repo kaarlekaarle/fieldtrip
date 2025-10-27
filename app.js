@@ -768,10 +768,8 @@ class FieldTripApp {
             }
         }
         
-        // Update section visibility with small delay to allow smooth transition
-        setTimeout(() => {
-            this.updateSections();
-        }, 50);
+        // Update section visibility
+        this.updateSections();
         
         // Show new content after transition
         setTimeout(() => {

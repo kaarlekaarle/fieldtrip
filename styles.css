@@ -165,7 +165,6 @@ body {
 
 /* Section styles */
 .section {
-    height: 85dvh;
     position: absolute;
     top: 0;
     left: 0;
@@ -174,7 +173,7 @@ body {
     height: calc(var(--vh, 1vh) * 100); /* JavaScript-calculated viewport height */
     opacity: 0;
     visibility: hidden;
-    transform: translateY(100vh);
+    transform: translateY(calc(var(--vh, 1vh) * 100));
     transition: opacity var(--animation-duration) var(--animation-easing), 
                 visibility var(--animation-duration) var(--animation-easing),
                 transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);

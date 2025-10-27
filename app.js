@@ -768,9 +768,6 @@ class FieldTripApp {
             }
         }
         
-        // Hide current content and arrows
-        this.hideCurrentContent(previousSection);
-        
         // Update section visibility with small delay to allow smooth transition
         setTimeout(() => {
             this.updateSections();

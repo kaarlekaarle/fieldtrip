@@ -219,6 +219,13 @@ body {
         min-height: 40vh !important;
         max-width: var(--size-illustration-desktop); /* Reasonable desktop constraint */
     }
+    
+    /* Specific animations - 120% size */
+    .illustration[src*="bird.gif"],
+    .illustration[src*="bath.gif"],
+    .illustration[src*="hill.gif"] {
+        transform: scale(1.2);
+    }
 }
 
 /* Mobile-specific illustration sizing - moved to main mobile block */
@@ -346,6 +353,7 @@ a {
     border-radius: 0;
     opacity: 0;
     transform: translateY(20px);
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
     position: relative;
     z-index: 2; /* Ensure button stays above animations */
 }
@@ -357,7 +365,7 @@ a {
 
 .cta-button:hover {
     background: var(--color-primary);
-    color: white;
+    color: var(--color-background);
     transform: translateY(-2px);
 }
 
@@ -373,6 +381,7 @@ a {
     cursor: pointer;
     opacity: 0;
     transform: translateY(10px);
+    transition: transform 0.3s ease, color 0.3s ease;
     /* Reset button defaults that might affect centering */
     margin: 0;
     padding: 0;
@@ -388,7 +397,15 @@ a {
 
 .nav-arrow:hover {
     color: var(--color-text);
-    transform: translateY(-5px);
+}
+
+/* Arrow hover transitions - different directions for each view */
+#section-1 .nav-arrow--visible:hover {
+    transform: translateY(-5px) !important;
+}
+
+#section-2 .nav-arrow--visible:hover {
+    transform: translateY(5px) !important;
 }
 
 .nav-arrow svg {
@@ -861,6 +878,27 @@ a {
     #section-2 .section__logo--header {
         top: 0;
         transform: translateY(0);
+    }
+    
+    /* Desktop section 2 layout - center text block in viewport */
+    #section-2 .row-3 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        flex: none; /* Override flex behavior */
+        width: 100%;
+        max-width: 600px; /* Reasonable max width for text */
+    }
+    
+    /* Desktop section 2 contact button - positioned below text block */
+    #section-2 .row-4 {
+        position: absolute;
+        top: calc(50% + 200px); /* Start below the text block (50% + estimated text height) */
+        left: 50%;
+        transform: translateX(-50%);
+        flex: none; /* Override flex behavior */
+        padding: 20px 0 0 0; /* Add 20px top padding to move button lower */
     }
 }
 

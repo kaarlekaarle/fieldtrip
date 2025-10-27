@@ -937,8 +937,21 @@ class FieldTripApp {
         const isMobile = this.isMobile();
         const currentCopytexts = this.getCurrentCopytexts();
         
-        // Rebuilding contact overlay for current device
+        // Build content BEFORE any transitions to avoid DOM manipulation during CSS animations
+        this.buildContactOverlayContent(isMobile, currentCopytexts);
         
+        // Use requestAnimationFrame to ensure DOM is ready, then start pure CSS transition
+        requestAnimationFrame(() => {
+            this.contactOverlay.classList.add('contact-overlay--visible');
+            this.setThemeColor('#ffffff');
+            document.body.style.overflow = 'hidden';
+        });
+    }
+
+    /**
+     * Build contact overlay content (separated for cleaner code)
+     */
+    buildContactOverlayContent(isMobile, currentCopytexts) {
         // Completely rebuild the contact info content
         const contactInfo = document.querySelector('.contact-info');
         contactInfo.innerHTML = ''; // Clear everything
@@ -987,15 +1000,6 @@ class FieldTripApp {
         contactInfo.appendChild(detailsElement);
         
         // Contact overlay content ready
-        
-        // Show overlay
-        this.contactOverlay.classList.add('contact-overlay--visible');
-        
-        // Change browser chrome color to white for overlay
-        this.setThemeColor('#ffffff');
-        
-        // Prevent body scroll
-        document.body.style.overflow = 'hidden';
     }
 
     /**

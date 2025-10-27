@@ -473,7 +473,7 @@ a {
     z-index: 1000;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .contact-overlay--visible {
@@ -482,8 +482,8 @@ a {
 }
 
 .contact-overlay--visible .overlay-background {
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    background: var(--color-overlay-bg);
+    opacity: 1;
 }
 
 .overlay-background {
@@ -492,10 +492,12 @@ a {
     left: 0;
     width: 100%;
     height: 100%;
-    background: var(--color-overlay-bg);
-    backdrop-filter: blur(0px);
-    -webkit-backdrop-filter: blur(0px);
-    transition: backdrop-filter 0.5s cubic-bezier(0.4, 0, 0.2, 1), -webkit-backdrop-filter 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    background: transparent;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0;
+    transition: background 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.14s,
+                opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.14s;
 }
 
 .overlay-close {
@@ -526,7 +528,7 @@ a {
     max-width: 500px; /* Default desktop width */
     width: 100%;
     padding: var(--spacing-lg);
-    transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.1s, transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.1s; /* Consistent easing */
+    transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.84s; /* Appear after all transitions complete */
 }
 
 .contact-overlay--visible .contact-info {
@@ -797,7 +799,7 @@ a {
         padding: var(--spacing-xl) !important; /* Even more internal padding for breathing room */
         left: 50% !important;
         transform: translate(-50%, -50%) !important;
-        transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.1s, transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.1s !important; /* Consistent easing */
+        transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.84s !important; /* Appear after all transitions complete */
     }
     
     .contact-intro {

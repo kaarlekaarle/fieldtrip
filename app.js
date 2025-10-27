@@ -220,6 +220,9 @@ class FieldTripApp {
         this.contactOverlay.classList.remove('contact-overlay--visible');
         
         // CTA button will be shown by animation sequence
+        
+        // Ensure proper section positioning
+        this.updateSections();
     }
 
     /**
@@ -749,11 +752,11 @@ class FieldTripApp {
         // Reset any content scaling before transition
         this.resetContentScaling();
         
-        const previousSection = this.currentSection;
+        this.previousSection = this.currentSection;
         this.currentSection = sectionNumber;
         
         // CRITICAL: Hide entire illustration container when leaving section 1
-        if (previousSection === 1) {
+        if (this.previousSection === 1) {
             const illustrationContainer = document.querySelector('.illustration-container');
             if (illustrationContainer) {
                 illustrationContainer.style.display = 'none';
@@ -777,7 +780,7 @@ class FieldTripApp {
                 }, 100);
             }
             this.isTransitioning = false;
-        }, 800);
+        }, 1000);
     }
 
     /**
@@ -832,7 +835,7 @@ class FieldTripApp {
             setTimeout(() => {
                 this.contactUsBtn.classList.add('cta-button--visible');
                 this.ensureBottomButtonVisibility();
-            }, 400);
+            }, 600);
         }
     }
     
@@ -923,8 +926,22 @@ class FieldTripApp {
             
             if (sectionNumber === this.currentSection) {
                 section.classList.add('section--active');
-            } else {
+                section.classList.remove('section--exiting-up', 'section--exiting-down');
+            } else if (sectionNumber === this.previousSection) {
+                // Determine direction based on section numbers
+                const isGoingDown = this.currentSection > this.previousSection;
+                
+                if (isGoingDown) {
+                    // Previous section slides up and out
+                    section.classList.add('section--exiting-up');
+                } else {
+                    // Previous section slides down and out
+                    section.classList.add('section--exiting-down');
+                }
                 section.classList.remove('section--active');
+            } else {
+                // Other sections stay hidden below
+                section.classList.remove('section--active', 'section--exiting-up', 'section--exiting-down');
             }
         });
     }

@@ -15,11 +15,6 @@ window.addEventListener('resize', setVHVar);
 window.addEventListener('orientationchange', setVHVar);
 
 // Optional verification snippet
-console.log('Viewport test', {
-  innerHeight: window.innerHeight,
-  visualViewport: window.visualViewport?.height,
-  vhVar: getComputedStyle(document.documentElement).getPropertyValue('--vh'),
-});
 
 // Layout diagnostic function
 function diagnoseLayout() {
@@ -29,7 +24,6 @@ function diagnoseLayout() {
     const row5 = document.querySelector('.row-5');
     
     if (!section || !row3 || !row4 || !row5) {
-        console.log('Layout diagnostic: Missing elements');
         return;
     }
     
@@ -479,7 +473,7 @@ class FieldTripApp {
     fadeInContent() {
         // Fade in rows 1, 2, 4 for section 1 (row-3 animation and row-5 arrow already visible)
         if (this.currentSection === 1) {
-            const rows = document.querySelectorAll('.row-1, .row-2, .row-4');
+            const rows = document.querySelectorAll('.row-1, .row-2, .row-4, .row-5');
             rows.forEach((row, index) => {
                 setTimeout(() => {
                     row.style.opacity = '1';
@@ -609,16 +603,11 @@ class FieldTripApp {
         
         // Skip scaling for Section 2 - it's designed to be static and fit naturally
         if (currentSection.id === 'section-2') {
-            console.log('Skipping scaling for Section 2 - designed to be static');
             this.resetContentScaling();
             return;
         }
         
-        console.log('Scaling check for section:', currentSection.id, {
-            viewportHeight,
-            availableHeight,
-            safeAreaBottom
-        });
+        // Scaling check for section
         
         // Temporarily make content visible to measure it
         const originalDisplay = currentSection.style.display;
@@ -628,11 +617,7 @@ class FieldTripApp {
         // Measure actual content height
         const contentHeight = currentSection.scrollHeight;
         
-        console.log('Content measurement:', {
-            contentHeight,
-            originalDisplay,
-            currentDisplay: currentSection.style.display
-        });
+        // Content measurement
         
         // Restore original display
         currentSection.style.display = originalDisplay;
@@ -643,10 +628,8 @@ class FieldTripApp {
         // Only scale if content is significantly too tall (scale factor < 0.9)
         // This prevents unnecessary scaling on minor height differences
         if (scaleFactor < 0.9) {
-            console.log('Content scaling applied:', { scaleFactor, viewportHeight, contentHeight, availableHeight });
             this.applyContentScaling(scaleFactor);
         } else {
-            console.log('Content scaling reset - no scaling needed:', { scaleFactor, viewportHeight, contentHeight, availableHeight });
             this.resetContentScaling();
         }
     }
@@ -708,9 +691,18 @@ class FieldTripApp {
         }
         
         document.querySelectorAll('.section').forEach(section => {
-            section.style.transform = 'scale(1)';
-            section.style.transformOrigin = 'top center';
-            section.style.transition = 'transform 0.3s ease-out';
+            // Preserve mobile arrow protection for section 1 row-5
+            if (section.id === 'section-1') {
+                const row5 = section.querySelector('.row-5');
+                if (row5 && this.isMobile()) {
+                    // Don't reset styles for mobile arrow protection
+                    return;
+                }
+            }
+            
+            section.style.transform = '';
+            section.style.transformOrigin = '';
+            section.style.transition = '';
         });
         
         // Content scaling reset to 100%
@@ -768,8 +760,10 @@ class FieldTripApp {
             }
         }
         
-        // Update section visibility
-        this.updateSections();
+        // Update section visibility with a small delay to allow CSS transition
+        setTimeout(() => {
+            this.updateSections();
+        }, 10);
         
         // Show new content after transition
         setTimeout(() => {
@@ -818,6 +812,10 @@ class FieldTripApp {
      */
     showNewContent() {
         if (this.currentSection === 1) {
+            // Immediately restore arrow visibility for hover effects
+            this.arrowDown.classList.add('nav-arrow--visible');
+            // Ensure mobile arrow protection is restored
+            this.ensureBottomArrowVisibility();
             // Treat this like a fresh page load - start completely clean
             this.initializeSection1LikeFreshLoad();
         } else if (this.currentSection === 2) {
@@ -904,17 +902,14 @@ class FieldTripApp {
             if (section2Button) {
                 section2Button.style.visibility = 'visible';
                 section2Button.style.opacity = '1';
-                section2Button.style.position = 'relative';
+                // Don't override position - let CSS handle absolute positioning
                 section2Button.style.zIndex = '11';
             }
             
             if (section2Row4) {
-                section2Row4.style.display = 'flex';
-                section2Row4.style.alignItems = 'center';
-                section2Row4.style.justifyContent = 'center';
-                section2Row4.style.position = 'relative';
+                // Don't override CSS positioning - let absolute positioning work
                 section2Row4.style.zIndex = '10';
-                section2Row4.style.minHeight = '120px';
+                // Don't set position, display, or minHeight - let CSS handle it
             }
         }
     }
@@ -1003,6 +998,9 @@ class FieldTripApp {
         // Show overlay
         this.contactOverlay.classList.add('contact-overlay--visible');
         
+        // Change browser chrome color to white for overlay
+        this.setThemeColor('#ffffff');
+        
         // Prevent body scroll
         document.body.style.overflow = 'hidden';
     }
@@ -1013,6 +1011,9 @@ class FieldTripApp {
     closeContactOverlay() {
         this.contactOverlay.classList.remove('contact-overlay--visible');
         
+        // Restore browser chrome color to site background
+        this.setThemeColor('#d7d3c1');
+        
         // Restore body scroll
         document.body.style.overflow = '';
         
@@ -1020,6 +1021,19 @@ class FieldTripApp {
         setTimeout(() => {
             this.resetSectionStyles();
         }, 100);
+    }
+
+    /**
+     * Set theme color for browser chrome (iOS Safari)
+     */
+    setThemeColor(color) {
+        const themeColorMeta = document.getElementById('theme-color-meta');
+        if (themeColorMeta) {
+            themeColorMeta.setAttribute('content', color);
+        }
+        
+        // For iOS Safari 17+, also set CSS custom property
+        document.documentElement.style.setProperty('--theme-color', color);
     }
 
     /**

@@ -24,8 +24,8 @@ html, body {
     overflow: hidden;
     position: fixed;
     width: 100%;
-    height: calc(var(--vh, 1vh) * 100);
-    min-height: calc(var(--vh, 1vh) * 100);
+    background-color: var(--color-background);
+    background-attachment: fixed;
 }
 
 .app-container,
@@ -33,8 +33,8 @@ html, body {
 .section {
     height: 100dvh;
     min-height: 100dvh;
-    height: calc(var(--vh, 1vh) * 100);
-    min-height: calc(var(--vh, 1vh) * 100);
+    background-color: var(--color-background);
+    background-attachment: fixed;
 }
 
 body {
@@ -89,14 +89,12 @@ body {
     /* Spacing */
     height: 100dvh;
     min-height: 100dvh;
-    height: calc(var(--vh, 1vh) * 100);
-    min-height: calc(var(--vh, 1vh) * 100);
 }
 
 /* Layout containers for consistent structure */
 .layout-container {
     width: 100%;
-    height: calc(var(--vh, 1vh) * 100);
+    height: 100dvh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -146,14 +144,21 @@ body {
     padding: var(--spacing-md);
 }
 
-/* Section 2: empty rows 2 and 5 */
-#section-2 .row-2,
-#section-2 .row-5 {
+/* Section 2: empty row 2 */
+#section-2 .row-2 {
     flex: 0 0 auto; /* Don't grow */
     min-height: 0; /* Minimal height */
     padding: 0; /* No padding */
     display: none; /* Hide completely */
 }
+
+    /* Section 2 row-5: Empty spacing row */
+    #section-2 .row-5 {
+        flex: 0 0 auto; /* Don't grow */
+        min-height: 30px; /* Increase height for more spacing */
+        padding: 0; /* No padding */
+        display: flex; /* Show the row */
+    }
 
 .row-1--header {
     flex: 0 0 auto; /* Rule 2: Don't grow/shrink to prevent overlap */
@@ -170,9 +175,10 @@ body {
     left: 0;
     width: 100%;
     height: 100vh;
+    height: 100dvh; /* JavaScript-calculated viewport height */
     opacity: 0;
     visibility: hidden;
-    transform: translateY(100vh);
+    transform: translateY(100dvh); /* Match height calculation */
     transition: opacity var(--animation-duration) var(--animation-easing), 
                 visibility var(--animation-duration) var(--animation-easing),
                 transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
@@ -315,7 +321,6 @@ body {
 .section__description {
     font-size: 1.1rem;
     font-weight: 400;
-    opacity: 0.7;
     max-width: 400px;
     margin: 0 auto var(--spacing-lg);
     line-height: 1.5;
@@ -609,11 +614,17 @@ a {
     }
     
     /* Section 2 rows — canonical */
-    /* Mobile section 2 specific styles - now using section-specific .row-3 rule */
+    /* Mobile section 2 layout - center text block in viewport */
     #section-2 .row-3 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        flex: none; /* Override flex behavior */
+        width: 100%;
+        max-width: calc(100vw - 2rem); /* Constrain width to fit viewport */
         /* COMPLETELY STATIC - no animations, transitions, or transforms */
         transition: none;
-        transform: none;
         animation: none;
         will-change: auto;
         backface-visibility: visible;
@@ -697,8 +708,8 @@ a {
     
     /* Simple text block - natural paragraph breaks from content */
     #section-2 .text-block p {
-        font-size: 0.9rem; /* Match section 1 description font size */
-        line-height: 1.2; /* Normal line height */
+        font-size: 0.9rem !important; /* Match section 1 description font size */
+        line-height: 1.4; /* Match section 1 line height */
         margin: 0; /* No margins - let line breaks handle spacing */
         max-width: calc(100vw - 2rem); /* Constrain width to fit viewport with padding */
         width: 100%; /* Full width within constraints */
@@ -725,8 +736,8 @@ a {
         white-space: pre-line; /* Preserve line breaks from JSON */
     }
     
-    /* Auto-sizing font for all mobile text */
-    .section__description {
+    /* Auto-sizing font for all mobile text - but don't override specific section rules */
+    .section__description:not(#section-1 .section__description) {
         font-size: clamp(0.6rem, 4vw, 1.2rem) !important;
         max-width: calc(100vw - 2rem);
         margin: 0 auto;
@@ -777,29 +788,36 @@ a {
         z-index: 10; /* Ensure button stays above other content */
     }
     
-    /* Additional protection for section 2 row-4 (button container) */
+    /* Additional protection for section 2 row-4 (button container) - desktop-style positioning */
     #section-2 .row-4 {
-        padding-bottom: var(--spacing-md); /* Standard bottom padding */
-        min-height: 80px; /* Reduced since scaling handles fit */
-        position: relative;
+        position: absolute;
+        top: calc(50% + 180px); /* Position below text block (mobile text is smaller than desktop) */
+        left: 50%;
+        transform: translateX(-50%);
+        flex: none; /* Override flex behavior */
+        padding: 20px 0 0 0; /* Add 20px top padding for extra spacing */
         z-index: 10;
+    }
+    
+    /* Make section 2 button visible on mobile */
+    #section-2 .cta-button {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translateY(0) !important;
     }
     
     /* CRITICAL: App container protection - now using scaling approach */
     .app-container {
-        min-height: 100vh; /* Use standard viewport height */
-        min-height: calc(var(--vh, 1vh) * 100); /* Use JavaScript-calculated viewport height */
+        min-height: 100dvh; /* Use dynamic viewport height for iOS Safari 26 */
         position: relative; /* Enable proper stacking context */
         overflow: hidden; /* Prevent scrolling - scaling handles content fit */
     }
     
     /* Enhanced viewport height protection */
     html, body {
-        /* Use JavaScript-calculated viewport height for better mobile support */
-        height: 100vh;
-        height: calc(var(--vh, 1vh) * 100);
-        /* Additional fallback for browsers that don't support CSS custom properties */
-        min-height: 100vh;
+        /* iOS Safari browser chrome background fix */
+        background-color: var(--color-background);
+        background-attachment: fixed;
     }
 }
 
@@ -816,7 +834,7 @@ a {
     }
     
     #section-2 .text-block p {
-        font-size: 0.8rem !important; /* Smaller font for very small screens */
+        font-size: 0.9rem !important; /* Match section 1 font size */
     }
     
     #section-2 .cta-button {
@@ -841,9 +859,9 @@ a {
         margin-bottom: var(--spacing-lg); /* Standard spacing */
     }
     
-    #section-2 .row-4 {
+    #section-2 .row-5 {
         padding-bottom: var(--spacing-md); /* Standard padding */
-        min-height: 140px; /* More space for very small screens */
+        min-height: 30px; /* Use same spacing as main mobile rule */
     }
 }
 

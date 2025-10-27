@@ -324,6 +324,45 @@ class FieldTripApp {
     }
 
     /**
+     * Initialize Section 1 for return transition (simplified - no randomization, no fade-in)
+     */
+    initializeSection1ForReturn() {
+        // Reset all content to clean state
+        this.resetSection1Content();
+        
+        // Ensure illustration container is visible
+        const illustrationContainer = document.querySelector('.illustration-container');
+        if (illustrationContainer) {
+            illustrationContainer.style.display = 'flex';
+        }
+        
+        // Show all elements immediately (no fade-in animation)
+        // Show all Section 1 rows immediately
+        document.querySelectorAll('#section-1 .row-1, #section-1 .row-2, #section-1 .row-3, #section-1 .row-4').forEach(row => {
+            row.style.opacity = '1';
+            row.style.transform = 'translateY(0)';
+            row.style.transition = 'none';
+        });
+        
+        // Show illustration immediately (keep current illustration, no randomization)
+        if (this.randomIllustration) {
+            this.randomIllustration.style.opacity = '1';
+            this.randomIllustration.style.transform = 'translateY(0)';
+            this.randomIllustration.style.transition = 'none';
+        }
+        
+        // Show CTA button immediately
+        if (this.requestReferencesBtn) {
+            this.requestReferencesBtn.style.opacity = '1';
+            this.requestReferencesBtn.style.transform = 'translateY(0)';
+            this.requestReferencesBtn.style.transition = 'none';
+            this.requestReferencesBtn.classList.add('cta-button--visible');
+        }
+        
+        // Arrow will be shown by showNewContent() after transition completes
+    }
+
+    /**
      * Reset Section 1 content to clean state
      */
     resetSection1Content() {
@@ -775,9 +814,9 @@ class FieldTripApp {
         
         // Update section visibility with a small delay to allow CSS transition
         setTimeout(() => {
-            // If transitioning to section 1, reset content BEFORE making section visible
+            // If transitioning to section 1, use simplified return logic
             if (this.currentSection === 1) {
-                this.initializeSection1LikeFreshLoad();
+                this.initializeSection1ForReturn();
             }
             
             this.updateSections();
@@ -835,7 +874,7 @@ class FieldTripApp {
             this.arrowDown.classList.add('nav-arrow--visible');
             // Ensure mobile arrow protection is restored
             this.ensureBottomArrowVisibility();
-            // Animation already started in navigateToSection() - no need to call initializeSection1LikeFreshLoad() again
+            // Content already initialized by initializeSection1ForReturn() - no additional animation needed
         } else if (this.currentSection === 2) {
             // Hide down arrow, show up arrow
             this.arrowDown.classList.remove('nav-arrow--visible');

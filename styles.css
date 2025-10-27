@@ -443,11 +443,11 @@ a {
 
 /* Arrow hover transitions - different directions for each arrow type */
 .nav-arrow--down.nav-arrow--visible:hover {
-    transform: translateX(-50%) translateY(-10px) !important; /* Down arrow moves up on hover */
+    transform: translateX(-50%) translateY(-3px) !important; /* Down arrow moves up on hover */
 }
 
 .nav-arrow--up.nav-arrow--visible:hover {
-    transform: translateX(-50%) translateY(10px) !important; /* Up arrow moves down on hover */
+    transform: translateX(-50%) translateY(3px) !important; /* Up arrow moves down on hover */
 }
 
 .nav-arrow svg {

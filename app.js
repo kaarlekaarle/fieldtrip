@@ -759,8 +759,14 @@ class FieldTripApp {
         
         // Update section visibility with a small delay to allow CSS transition
         setTimeout(() => {
-            // If transitioning to section 1, use simplified return logic
+            // If transitioning to section 1, fade out section 2 logo immediately (desktop only)
             if (this.currentSection === 1) {
+                if (!this.isMobile()) {
+                    const section2Logo = document.querySelector('#section-2 .section__logo--header');
+                    if (section2Logo) {
+                        section2Logo.style.opacity = '0';
+                    }
+                }
                 this.initializeSection1ForReturn();
             }
             
@@ -823,19 +829,22 @@ class FieldTripApp {
         } else if (this.currentSection === 2) {
             // Hide down arrow, show up arrow
             this.arrowDown.classList.remove('nav-arrow--visible');
-            // Show logo and up arrow immediately
-            const section2Logo = document.querySelector('#section-2 .section__logo--header');
-            if (section2Logo) {
-                section2Logo.style.opacity = '1';
-                section2Logo.style.transform = 'translateY(0)';
-            }
-            
             this.arrowUp.classList.add('nav-arrow--visible');
             
             // Show text and button after a delay
             setTimeout(() => {
                 this.contactUsBtn.classList.add('cta-button--visible');
                 this.ensureBottomButtonVisibility();
+                
+                // Fade in logo only after content is locked in place (desktop only)
+                if (!this.isMobile()) {
+                    setTimeout(() => {
+                        const section2Logo = document.querySelector('#section-2 .section__logo--header');
+                        if (section2Logo) {
+                            section2Logo.style.opacity = '1';
+                        }
+                    }, 200); // Additional 200ms delay for smoother fade-in
+                }
             }, 600);
         }
     }

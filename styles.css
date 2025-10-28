@@ -319,10 +319,13 @@ body {
 .section__logo--header {
     width: var(--size-logo-mobile);
     height: auto;
-    position: absolute;
+    position: fixed;
     left: 25px;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 25px;
+    transform: none;
+    z-index: 200;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
 }
 
 /* Navigation arrow positioning - unified centering for all screen sizes */
@@ -932,10 +935,15 @@ a {
         white-space: nowrap; /* Keep on one line */
     }
     
-    /* Fix desktop section 2 logo position - keep at top instead of vertically centered */
+    /* Desktop section 2 logo - fixed position */
     #section-2 .section__logo--header {
-        top: 0;
-        transform: translateY(0);
+        position: fixed;
+        left: 25px;
+        top: 25px;
+        transform: none;
+        z-index: 200;
+        opacity: 0;
+        transition: opacity 0.8s ease-in-out;
     }
     
     /* Desktop section 2 layout - center text block in viewport */

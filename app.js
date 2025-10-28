@@ -823,6 +823,8 @@ class FieldTripApp {
             // Hide up arrow, show down arrow
             this.arrowUp.classList.remove('nav-arrow--visible');
             this.arrowDown.classList.add('nav-arrow--visible');
+            // Restore down arrow display (in case it was hidden on mobile)
+            this.arrowDown.style.display = '';
             // Ensure mobile arrow protection is restored
             this.ensureBottomArrowVisibility();
             // Content already initialized by initializeSection1ForReturn() - no additional animation needed
@@ -830,6 +832,13 @@ class FieldTripApp {
             // Hide down arrow, show up arrow
             this.arrowDown.classList.remove('nav-arrow--visible');
             this.arrowUp.classList.add('nav-arrow--visible');
+            
+            // Ensure down arrow is completely hidden on mobile
+            if (this.isMobile()) {
+                this.arrowDown.style.display = 'none';
+            } else {
+                this.arrowDown.style.display = '';
+            }
             
             // Show text and button after a delay
             setTimeout(() => {

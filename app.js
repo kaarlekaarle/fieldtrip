@@ -499,8 +499,8 @@ class FieldTripApp {
         this.arrowUp.addEventListener('click', () => this.navigateToSection(1));
         
         // Contact buttons
-        this.requestReferencesBtn.addEventListener('click', () => this.openContactOverlay());
-        this.contactUsBtn.addEventListener('click', () => this.openContactOverlay());
+        this.requestReferencesBtn.addEventListener('click', (e) => this.openContactOverlay(e));
+        this.contactUsBtn.addEventListener('click', (e) => this.openContactOverlay(e));
         
         // Overlay close
         this.overlayClose.addEventListener('click', () => this.closeContactOverlay());
@@ -925,13 +925,15 @@ class FieldTripApp {
     /**
      * Open contact overlay with animation
      */
-    openContactOverlay() {
-        // Button press animation
-        const button = event.target;
-        button.style.transform = 'scale(0.95)';
-        setTimeout(() => {
-            button.style.transform = '';
-        }, 150);
+    openContactOverlay(e) {
+        // Button press animation (guarded)
+        const button = e && (e.currentTarget || e.target);
+        if (button && button.style) {
+            button.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                button.style.transform = '';
+            }, 150);
+        }
         
         // Get current copytexts
         const isMobile = this.isMobile();
@@ -946,6 +948,24 @@ class FieldTripApp {
             this.setThemeColor('#ffffff');
             document.body.style.overflow = 'hidden';
         });
+    }
+
+    /**
+     * Ensure bottom arrow is visible and clickable on section 1
+     * Idempotent and safe to call after transitions/overlays
+     */
+    ensureBottomArrowVisibility() {
+        if (!this.arrowDown) return;
+        if (this.currentSection !== 1) return;
+
+        this.arrowDown.classList.add('nav-arrow--visible');
+        this.arrowDown.style.pointerEvents = 'auto';
+        this.arrowDown.style.visibility = 'visible';
+        this.arrowDown.style.opacity = '1';
+        // Keep transform controlled by CSS class, but clear accidental inline transforms
+        this.arrowDown.style.removeProperty('transform');
+        // Maintain expected stacking without fighting CSS
+        this.arrowDown.style.zIndex = '100';
     }
 
     /**
